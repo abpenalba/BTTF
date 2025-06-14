@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+      border-color: #86b7fe;
+    }
+    .input-group-text {
+      background-color: #f1f1f1;
+    }
+    .left-img {
+      
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row min-vh-100">
+      
+      <!-- Left image -->
+      <div class="col-md-6 d-none d-md-block p-0">
+        <img src="splash.jpg" alt="Paddle" class="img-fluid left-img">
+      </div>
+      
+      <!-- Right form -->
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <div class="w-75">
+            <h3 class="fw-bold mb-1">Borongan Table Tennis Federation</h3>
+          <h2 class="fw-bold mb-3">Sign Up</h2>
+          <p class="text-muted mb-4">Please fill your information below</p>
+
+          <form id="signupForm">
+            <!-- Name -->
+            <div class="mb-3 input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control" placeholder="Name" id="name">
+            </div>
+
+            <!-- Mobile -->
+            <div class="mb-3 input-group">
+              <span class="input-group-text"><i class="bi bi-phone"></i></span>
+              <input type="tel" class="form-control" placeholder="Mobile number" id="mobileNumber">
+            </div>
+            
+            <!-- Date of Birth -->
+            <div class="mb-3 input-group">
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+              <input type="date" class="form-control" placeholder="Date of Birth" id="birthdate">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3 input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control" placeholder="E-mail" id="emailAddress">
+            </div>
+
+
+            <!-- Password -->
+            <div class="mb-4 input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" class="form-control" placeholder="Password" id="password">
+            </div>
+
+            <!-- Button -->
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary">
+                Sign Up <i class="bi bi-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </form>
+
+          <p class="text-center text-muted">
+            Already have an account? <a href="login.html" class="text-decoration-none">Login to your account</a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAigLZtIpRRIycSENoHAMStdlh4rhPa7WQ",
+      authDomain: "bttf-18d00.firebaseapp.com",
+      projectId: "bttf-18d00",
+      storageBucket: "bttf-18d00.firebasestorage.app",
+      messagingSenderId: "1042160997514",
+      appId: "1:1042160997514:web:abb6013596970c0b8dc973",
+      measurementId: "G-NYZ4R22KZK"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+          
+      const name = document.getElementById("name").value.trim();
+      const mobileNumber = document.getElementById("mobileNumber").value.trim();
+      const birthdate = document.getElementById("birthdate").value.trim();
+      const emailAddress = document.getElementById("emailAddress").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!name || !mobileNumber || !birthdate || !emailAddress || !password){
+        alert("Please Fill Up all Fields");
+        return;
+      }
+      
+      try {
+        // Create user in Firebase Authentication
+        const userCredential = await auth.createUserWithEmailAndPassword(emailAddress, password);
+        const uid = userCredential.user.uid;
+
+        // Save extra data to Firestore
+        await db.collection("users").doc(uid).set({
+          name,
+          mobileNumber,
+          emailAddress,
+
+          birthdate,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert("Registration successful!");
+        document.getElementById("signupForm").reset();
+    } catch (error) {
+      console.error(error);
+      alert("Error: " + error.message);
+    }
+
+    
+
+
+      });
+  </script>
+</body>
+</html>
