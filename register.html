@@ -26,8 +26,8 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Signup</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                             <li><a class="nav-link active disabled" aria-current="page" href="#" tabindex="-1">Signup</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                            <!--  
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="mb-3 input-group">
                                     <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select" aria-label="Default select example" id="gender" required>
                                         <option disabled selected hidden>Gender</option>
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
@@ -71,7 +71,7 @@
                                 <!-- Complete Address -->
                                 <div class="mb-3 input-group">
                                     <span class="input-group-text"><i class="bi bi-house"></i></span>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Address - 123 Purok 1, Brgy. Baybay, Borongan City, Eastern Samar">
+                                    <input type="text" class="form-control" id="completeAddress" name="address" placeholder="Address - 123 Purok 1, Brgy. Baybay, Borongan City, Eastern Samar">
                                 </div>
                                 <!-- Mobile -->
                                 <div class="mb-3 input-group">
@@ -105,7 +105,7 @@
                                 </div>
                             </form>
                              <p class="text-center text-muted px-5">
-                                Already have an account? <a href="login.html" class="text-decoration-none">Login to your account</a>
+                                Already have an account? <a href="#" class="text-decoration-none">Login to your account</a>
                             </p>
                         </div>
                        
@@ -151,8 +151,15 @@
       const birthdate = document.getElementById("birthdate").value.trim();
       const emailAddress = document.getElementById("emailAddress").value.trim();
       const password = document.getElementById("password").value.trim();
+      const gender = document.getElementById("gender");
+      const completeAddress = document.getElementById("completeAddress").value.trim();
+      let genderSelect = "";
+      gender.addEventListener('change', function () {
+             genderSelect = this.value;
+             console.log(genderSelect);
+        });
 
-      if (!name || !mobileNumber || !birthdate || !emailAddress || !password){
+      if (!completeAddress ||!name || !mobileNumber || !birthdate || !emailAddress || !password || genderSelect === "M"|| genderSelect === "F"){
         alert("Please Fill Up all Fields");
         return;
       }
@@ -165,9 +172,10 @@
         // Save extra data to Firestore
         await db.collection("users").doc(uid).set({
           name,
+          completeAddress,
           mobileNumber,
           emailAddress,
-
+          genderSelect,
           birthdate,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
