@@ -54,7 +54,7 @@
                                     <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="#">Play</a>
                                     <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="#">History</a>
                                     <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="#">Ranking</a>
-                                    <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="#">Profile</a>
+                                    <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="#" id="goToProfile">Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -124,9 +124,11 @@
                     // Update welcome message
                     document.getElementById("welcomePlayer").textContent = `Welcome Player, ${name}!`;
                     document.getElementById("title").textContent = `BTTF -  ${name}`;
+                    document.getElementById("goToProfile").href = `profile.html?uid=${encodeURIComponent(uid)}`;
                 } else {
                     document.getElementById("welcomePlayer").textContent = "Welcome Player!";
                 }
+                
         </script>
     </body>
 </html>
