@@ -35,11 +35,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                           <li class="nav-item"><a class="nav-link active disabled" aria-current="page" href="#" tabindex="-1">Home</a></li>
+                           <li class="nav-item"><a class="nav-link" href="welcomePage.html">Home</a></li>
                              <li><a class="nav-link" href="#">Play</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">History</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Ranking</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link active disabled" aria-current="page" href="#" tabindex="-1">Profile</a></li>
 
                            <!--  
                             <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
@@ -260,7 +260,7 @@
            //image Conversion to text
              function getBase64FromFile(file) {
               return new Promise((resolve, reject) => {
-                const reader = new FileReader();
+                const readerr = new FileReader();
                 reader.onload = () => resolve(reader.result); // result is the base64 string
                 reader.onerror = reject;
                 reader.readAsDataURL(file); // output: data:image/png;base64,....
